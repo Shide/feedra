@@ -14,22 +14,10 @@ class GeneralConfig(object):
 
         # TODO: Optimize icon finding
         self._icons = {
-            "rss": os.path.join(self._icon_resource_folder, "rss-icon-small.png"),
-            "youtube": {
-                "small": os.path.join(self._icon_resource_folder, "youtube-icon-small.png"),
-                "medium": None,
-                "large": None,
-            },
-            "soundcloud": {
-                "small": os.path.join(self._icon_resource_folder, "soundcloud-icon-small.png"),
-                "medium": None,
-                "large": None,
-            },
-            "default": {
-                "small": os.path.join(self._icon_resource_folder, "rss-icon-small.png"),
-                "medium": None,
-                "large": None,
-            },
+            "rss": "rss-icon.png",
+            "youtube": "youtube-icon.png",
+            "soundcloud": "soundcloud-icon.png",
+            "default": "rss-icon.png",
         }
 
     def get_icon_path(self, icon_name, size="small"):
@@ -49,8 +37,6 @@ class GeneralConfig(object):
             - large
         """
         # TODO: Optimize
-        if size not in self._available_sizes:
-            size = "small"
-
-        icon_sizes = self._icons.get(icon_name.lower(), self._icons["default"])
-        return icon_sizes.get(size.lower(), icon_sizes["small"])
+        size = size if size in self._available_sizes else "small"
+        icon = self._icons.get(icon_name.lower(), self._icons["default"])
+        return os.path.join(self._icon_resource_folder, size, icon)

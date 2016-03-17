@@ -11,6 +11,7 @@ class MainWindow(QtGui.QMainWindow):
         self._set_window_appearance()
         self._setup_buttons()
         self._setup_left_toolbar()
+        self._main_action.trigger()
 
         # Show Window
         self.show()
@@ -30,11 +31,15 @@ class MainWindow(QtGui.QMainWindow):
         self.left_tool_bar = self.addToolBar("Apps Toolbar")
 
         # Actions
-        rss_action = QtGui.QAction(QtGui.QIcon(self._general_config.get_icon_path("rss")), "RSS", self)
-        youtube_action = QtGui.QAction("Youtube", self)
-        soundcloud_action = QtGui.QAction("Soundcloud", self)
+        rss_action = QtGui.QAction(QtGui.QIcon(self._general_config.get_icon_path("rss")),
+                                   "RSS", self)
+        youtube_action = QtGui.QAction(QtGui.QIcon(self._general_config.get_icon_path("youtube")),
+                                       "Youtube", self)
+        soundcloud_action = QtGui.QAction(QtGui.QIcon(self._general_config.get_icon_path("soundcloud")),
+                                          "Soundcloud", self)
 
         # Triggers
+        rss_action.triggered.connect(self._load_rss_frame)
         youtube_action.triggered.connect(self._load_youtube_frame)
         soundcloud_action.triggered.connect(self._load_soundcloud_frame)
 
@@ -42,6 +47,12 @@ class MainWindow(QtGui.QMainWindow):
         self.left_tool_bar.addAction(rss_action)
         self.left_tool_bar.addAction(youtube_action)
         self.left_tool_bar.addAction(soundcloud_action)
+
+        # Main action binding
+        self._main_action = rss_action
+
+    def _load_rss_frame(self):
+        print "Loading RSS Frame"
 
     def _load_youtube_frame(self):
         print "Loading Youtube Frame"
